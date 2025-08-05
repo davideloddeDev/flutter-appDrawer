@@ -1,0 +1,22 @@
+name: custom_app_drawer
+description: A customizable and reusable app drawer component for Flutter applications. Easily integrate into any Flutter project.
+version: 1.0.0
+homepage: https://github.com/davideloddeDev/flutter-appDrawer
+repository: https://github.com/davideloddeDev/flutter-appDrawer.git
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+  flutter: ">=3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
+
+flutter:
+  uses-material-design: true

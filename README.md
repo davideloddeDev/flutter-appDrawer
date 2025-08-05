@@ -21,7 +21,7 @@ Aggiungi questa dipendenza al tuo `pubspec.yaml`:
 dependencies:
   custom_app_drawer:
     git:
-      url: https://github.com/tuousername/custom_app_drawer.git
+      url: https://github.com/davideloddeDev/flutter-appDrawer.git
       ref: main
 ```
 
@@ -37,6 +37,86 @@ flutter pub get
 
 ```dart
 import 'package:custom_app_drawer/custom_app_drawer.dart';
+```
+
+### Utilizzo con variabili pubbliche (Raccomandato)
+
+Il Custom App Drawer è progettato per essere completamente configurabile dall'esterno. Tutti i dati devono essere gestiti nel progetto principale:
+
+```dart
+class MyHomePage extends StatefulWidget {
+  @override
+  State<MyHomePage> createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  // Tutte le variabili sono gestite qui nel progetto principale
+  String userName = 'Mario Rossi';
+  String userEmail = 'mario.rossi@email.com';
+  int notificationCount = 5;
+  bool isDarkMode = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      drawer: CustomAppDrawer(
+        config: DrawerConfig(
+          userName: userName,
+          userEmail: userEmail,
+          headerGradient: LinearGradient(
+            colors: isDarkMode 
+              ? [Colors.grey[800]!, Colors.grey[600]!]
+              : [Colors.blue, Colors.blueAccent],
+          ),
+          items: [
+            DrawerItemConfig(
+              icon: Icons.home,
+              title: 'Home',
+              onTap: () {
+                Navigator.pop(context);
+                // La tua logica qui
+              },
+            ),
+            DrawerItemConfig(
+              icon: Icons.notifications,
+              title: 'Notifiche',
+              trailing: notificationCount > 0
+                ? Container(
+                    padding: EdgeInsets.all(6),
+                    decoration: BoxDecoration(
+                      color: Colors.red,
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Text(
+                      '$notificationCount',
+                      style: TextStyle(color: Colors.white, fontSize: 12),
+                    ),
+                  )
+                : null,
+              onTap: () {
+                Navigator.pop(context);
+                setState(() {
+                  notificationCount = 0; // Aggiorna la variabile locale
+                });
+              },
+            ),
+            DrawerItemConfig(
+              icon: isDarkMode ? Icons.light_mode : Icons.dark_mode,
+              title: isDarkMode ? 'Modalità Chiara' : 'Modalità Scura',
+              onTap: () {
+                Navigator.pop(context);
+                setState(() {
+                  isDarkMode = !isDarkMode; // Toggle tema
+                });
+              },
+            ),
+          ],
+        ),
+      ),
+      // resto del tuo Scaffold...
+    );
+  }
+}
 ```
 
 ### Utilizzo semplice
